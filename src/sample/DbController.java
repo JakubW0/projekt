@@ -93,6 +93,10 @@ public class DbController implements Initializable {
     @FXML
     private TableColumn<ModelPlan, String> idKierunek;
     @FXML
+    private TableColumn<ModelPlan, String> tytul;
+    @FXML
+    private TableColumn<ModelPlan, String> nazwisko;
+    @FXML
     private TableView<ModelKatedra> tableKatedra;
     @FXML
     private TableColumn<ModelKatedra, String> idKatedry;
@@ -100,6 +104,52 @@ public class DbController implements Initializable {
     private TableColumn<ModelKatedra, String> idWydzial;
     @FXML
     private TableColumn<ModelKatedra, String> NazwaWydzialu;
+    @FXML
+    private TableView<ModelKierunek> tableKierunek;
+    @FXML
+    private TableColumn<ModelKierunek, String> idKierunekK;
+    @FXML
+    private TableColumn<ModelKierunek, String> idWydzialK;
+    @FXML
+    private TableColumn<ModelKierunek, String> NazwaKierunek;
+    @FXML
+    private TableView<ModelSemestr> tableSemestr;
+    @FXML
+    private TableColumn<ModelSemestr, String> idSemestrS;
+    @FXML
+    private TableColumn<ModelSemestr, String> nazwaSem;
+    @FXML
+    private TableView<ModelSpecjalnosci> tableSpecjalnsci;
+    @FXML
+    private TableColumn<ModelSpecjalnosci, String> idSpecjalnosci;
+    @FXML
+    private TableColumn<ModelSpecjalnosci, String> nazwaSpec;
+    @FXML
+    private TableView<ModelTryb> tableTryb;
+    @FXML
+    private TableColumn<ModelTryb, String> idTrybT;
+    @FXML
+    private TableColumn<ModelTryb, String> tryb;
+    @FXML
+    private TableView<ModelTypy> tableTyp;
+    @FXML
+    private TableColumn<ModelTypy, String> idTypT;
+    @FXML
+    private TableColumn<ModelTypy, String> nazwaTypy;
+    @FXML
+    private TableView<ModelTytul> tableTytul;
+    @FXML
+    private TableColumn<ModelTytul, String> idTytul;
+    @FXML
+    private TableColumn<ModelTytul, String> nazwaTytul;
+    @FXML
+    private TableView<ModelWydzial> tableWydzial;
+    @FXML
+    private TableColumn<ModelWydzial, String> idWydzialW;
+    @FXML
+    private TableColumn<ModelWydzial, String> nazwaWydzialu;
+    @FXML
+    private TabPane TabsP;
     @FXML
             private Button dodaj;
     @FXML
@@ -112,6 +162,8 @@ public class DbController implements Initializable {
             private TextField eCts;
     @FXML
             private TextField godziny;
+    @FXML
+            private CheckBox pokaz;
     private String zapytajS,idprzedS,idtypS,nazwaS,ectsS,godzinyS;
 
     TablePrzedmioty tPrzedmioty = new TablePrzedmioty();
@@ -120,9 +172,16 @@ public class DbController implements Initializable {
     TableStudenci tStudenci = new TableStudenci();
     TablePlan tPLan = new TablePlan();
     TableKatedra tKatedra = new TableKatedra();
+    TableKierunek tKierunek = new TableKierunek();
+    TableSemestr tSemestr = new TableSemestr();
+    TableSpecjalnosci tSpecjalnosci = new TableSpecjalnosci();
+    TableTryb tTryb = new TableTryb();
+    TableTypy tTypy = new TableTypy();
+    TableTytul tTytul = new TableTytul();
+    TableWydzial tWydzial = new TableWydzial();
 
-
-    ObservableList<ModelPrzedmioty> oblist = FXCollections.observableArrayList();
+   /* String[] Tabs = {}*/
+   // ObservableList<ModelPrzedmioty> oblist = FXCollections.observableArrayList();
 
 
     public DbController(){}
@@ -130,12 +189,21 @@ public class DbController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tytul.setVisible(false);
+        nazwisko.setVisible(false);
        tPrzedmioty.setPrzedmioty();
        tGrupa.setGrupy();
        tProwadzacy.setProwadzacy();
        tStudenci.setStudenci();
        tPLan.setPlan();
        tKatedra.setKatedra();
+        tKierunek.setKierunek();
+        tSemestr.setSemestr();
+        tSpecjalnosci.setSpecjalnosci();
+        tTryb.setTryb();
+        tTypy.setTypy();
+        tTytul.setTytul();
+        tWydzial.setWydzial();
 
 
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -181,6 +249,29 @@ public class DbController implements Initializable {
         idWydzial.setCellValueFactory(new PropertyValueFactory<>("idWydzial"));
         NazwaWydzialu.setCellValueFactory(new PropertyValueFactory<>("nazwaKatedry"));
 
+        idKierunekK.setCellValueFactory(new PropertyValueFactory<>("idKierunek"));
+        idWydzialK.setCellValueFactory(new PropertyValueFactory<>("idWydzial"));
+        NazwaKierunek.setCellValueFactory(new PropertyValueFactory<>("nazwaKierunek"));
+
+        idSemestrS.setCellValueFactory(new PropertyValueFactory<>("idSemestr"));
+        nazwaSem.setCellValueFactory(new PropertyValueFactory<>("numer_sem"));
+
+        idSpecjalnosci.setCellValueFactory(new PropertyValueFactory<>("idSpecjalnosc"));
+        nazwaSpec.setCellValueFactory(new PropertyValueFactory<>("nazwaSpecjalnosci"));
+
+        idTrybT.setCellValueFactory(new PropertyValueFactory<>("idTryb"));
+        tryb.setCellValueFactory(new PropertyValueFactory<>("nazwaTrybu"));
+
+        idTypT.setCellValueFactory(new PropertyValueFactory<>("idTyp"));
+        nazwaTypy.setCellValueFactory(new PropertyValueFactory<>("NazwaTyp"));
+
+        idTytul.setCellValueFactory(new PropertyValueFactory<>("idTytul"));
+        nazwaTytul.setCellValueFactory(new PropertyValueFactory<>("nazwaTytul"));
+
+        idWydzialW.setCellValueFactory(new PropertyValueFactory<>("idWydzial"));
+        nazwaWydzialu.setCellValueFactory(new PropertyValueFactory<>("nazwaWydzialu"));
+
+
 
         tableGrupa.setItems(tGrupa.getOblist());
         table.setItems(tPrzedmioty.getOblist());
@@ -188,8 +279,13 @@ public class DbController implements Initializable {
         tableStudenci.setItems(tStudenci.getOblist());
         tablePlan.setItems(tPLan.getOblist());
         tableKatedra.setItems(tKatedra.getOblist());
-
-
+        tableKierunek.setItems(tKierunek.getOblist());
+        tableSemestr.setItems(tSemestr.getOblist());
+        tableSpecjalnsci.setItems(tSpecjalnosci.getOblist());
+        tableTryb.setItems(tTryb.getOblist());
+        tableTyp.setItems(tTypy.getOblist());
+        tableTytul.setItems(tTytul.getOblist());
+        tableWydzial.setItems(tWydzial.getOblist());
     }
   @FXML
     private void onDodaj()  {
@@ -204,6 +300,35 @@ public class DbController implements Initializable {
    tPrzedmioty.setUsun(idprzedS);
 
       table.setItems(tPrzedmioty.getOblist());
+    }
+    @FXML
+    private void onCheck(){
+        if(pokaz.isSelected() == true){
+             tProwadzacy.setProwadzacyNazwy();
+             tPrzedmioty.setPrzedmiotyNazwy();
+             tStudenci.setStudenciNazwa();
+             tytul.setVisible(true);
+             nazwisko.setVisible(true);
+            tytul.setCellValueFactory(new PropertyValueFactory<>("tytul"));
+            nazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+             tPLan.setPlanNazwy();
+            tablePlan.setItems(tPLan.getOblistNazwy());}
+        else{
+            tProwadzacy.setClearOblist();
+            tProwadzacy.setProwadzacy();
+
+            tPrzedmioty.setClearOblist();
+            tPrzedmioty.setPrzedmioty();
+
+            tStudenci.setClearOblist();
+            tStudenci.setStudenci();
+
+            tytul.setVisible(false);
+            nazwisko.setVisible(false);
+            tPLan.OblistClear();
+            tPLan.setPlan();
+        }
+
     }
 
 

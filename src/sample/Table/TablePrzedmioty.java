@@ -19,13 +19,31 @@ public class TablePrzedmioty {
 
 
 
-    public void setPrzedmioty(){
+    public void setPrzedmioty() {
+        try {
+            Connection conn = ConnectTable.connectdb();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            while (rs.next()) {
+                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
+                        rs.getString("id_typ_zajec"),
+                        rs.getString("nazwa_przedmiotu"),
+                        rs.getString("ects"),
+                        rs.getString("godziny")));
+
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+        public void setPrzedmiotyNazwy(){
+            oblist.clear();
             try {
                 Connection conn = ConnectTable.connectdb();
-                ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+                ResultSet rs = conn.createStatement().executeQuery("SELECT przedmioty.Id_przedmiot, typy_zajec.nazwa_typ_zajec, przedmioty.nazwa_przedmiotu, przedmioty.ects,przedmioty.godziny FROM `przedmioty` INNER JOIN `typy_zajec` ON przedmioty.id_typ_zajec=typy_zajec.id_typ_zajec");
                 while (rs.next()){
                     oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                            rs.getString("id_typ_zajec"),
+                            rs.getString("nazwa_typ_zajec"),
                             rs.getString("nazwa_przedmiotu"),
                             rs.getString("ects"),
                             rs.getString("godziny")));
@@ -37,7 +55,9 @@ public class TablePrzedmioty {
                 e.printStackTrace();
             }
 
+
         }
+
         public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
 
             oblist.clear();
@@ -85,6 +105,9 @@ public class TablePrzedmioty {
      public ObservableList<ModelPrzedmioty> getOblist(){
         return  oblist;
      }
+    public void setClearOblist(){
+        oblist.clear();
+    }
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText(infoMessage);

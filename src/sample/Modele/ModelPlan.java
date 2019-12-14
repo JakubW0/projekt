@@ -4,12 +4,27 @@ public class ModelPlan {
 
 
     String idPrzedmiot;
+    String tytul;
     String idProwadzacy;
+    String nazwisko;
     String idSpecjalnosc;
     String idGrupy;
     String idSemestr;
     String idTryb;
     String idKierunek;
+
+    public ModelPlan(String idPrzedmiot, String tytul, String idProwadzacy, String nazwisko, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
+        this.idPrzedmiot = idPrzedmiot;
+        this.tytul = tytul;
+        this.idProwadzacy = idProwadzacy;
+        this.nazwisko = nazwisko;
+        this.idSpecjalnosc = idSpecjalnosc;
+        this.idGrupy = idGrupy;
+        this.idSemestr = idSemestr;
+        this.idTryb = idTryb;
+        this.idKierunek = idKierunek;
+    }
+
     public ModelPlan(String idPrzedmiot, String idProwadzacy, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
         this.idPrzedmiot = idPrzedmiot;
         this.idProwadzacy = idProwadzacy;

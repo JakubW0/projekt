@@ -14,11 +14,11 @@ public class TableProwadzacy {
 
     ObservableList<ModelProwadzacy> oblistProwadzacy = FXCollections.observableArrayList();
     public TableProwadzacy(){}
-    public void setProwadzacy(){
+    public void setProwadzacy() {
         try {
             Connection conn = ConnectTable.connectdb();
             ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `prowadzacy`");
-            while (rs.next()){
+            while (rs.next()) {
                 oblistProwadzacy.add(new ModelProwadzacy(rs.getString("id_prowadzacy"),
                         rs.getString("id_tytul"),
                         rs.getString("id_katedry"),
@@ -30,11 +30,34 @@ public class TableProwadzacy {
                 ));
             }
             conn.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+        public void setProwadzacyNazwy(){
+        oblistProwadzacy.clear();
+            try {
+                Connection conn = ConnectTable.connectdb();
+                ResultSet rs = conn.createStatement().executeQuery("        SELECT prowadzacy.id_prowadzacy,tytul_naukowy.nazwa_tytulu,katedra.nazwa_katedry,prowadzacy.imie_prowadzacy,prowadzacy.nazwisko_prowadzacy,prowadzacy.data_urodzenia_prowadzacy," +
+                        "prowadzacy.pensja,prowadzacy.ilosc_dzieci FROM " +
+                        "`prowadzacy` INNER JOIN tytul_naukowy ON prowadzacy.Id_tytul= tytul_naukowy.Id_tytul INNER JOIN katedra ON prowadzacy.id_katedry=katedra.id_katedry\n");
+                while (rs.next()){
+                    oblistProwadzacy.add(new ModelProwadzacy(rs.getString("id_prowadzacy"),
+                            rs.getString("tytul_naukowy.nazwa_tytulu"),
+                            rs.getString("katedra.nazwa_katedry"),
+                            rs.getString("imie_prowadzacy"),
+                            rs.getString("nazwisko_prowadzacy"),
+                            rs.getString("data_urodzenia_prowadzacy"),
+                            rs.getString("pensja"),
+                            rs.getString("ilosc_dzieci")
+                    ));
+                }
+                conn.close();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
 
     }
    /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
@@ -83,6 +106,9 @@ public class TableProwadzacy {
 
     public ObservableList<ModelProwadzacy> getOblist(){
         return oblistProwadzacy;
+    }
+    public void setClearOblist(){
+        oblistProwadzacy.clear();
     }
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

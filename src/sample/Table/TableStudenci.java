@@ -40,6 +40,39 @@ public class TableStudenci {
         }
 
     }
+    public void setStudenciNazwa(){
+        oblistStudenci.clear();
+        try {
+            Connection conn = ConnectTable.connectdb();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT studenci.Id_student,specjalnosc.nazwa_specjalnosc,tryb_studiow.tryb_studiow,kierunek.nazwa_kierunku,semestr.numer_sem,gr_dziekan.numer_grupy,studenci.nr_albumu,studenci.imie_studenta,studenci.nazwisko_studenta,studenci.data_urodzenia_student,studenci.pesel_student,studenci.stypendium " +
+                    "FROM `studenci`" +
+                    " INNER JOIN specjalnosc ON studenci.id_specjalnosc=specjalnosc.nazwa_specjalnosc" +
+                    " INNER JOIN tryb_studiow ON studenci.Id_tryb=tryb_studiow.Id_tryb " +
+                    "INNER JOIN kierunek ON studenci.id_kierunek=kierunek.id_kierunek " +
+                    "INNER JOIN semestr ON studenci.id_semestr=semestr.id_semestr " +
+                    "INNER JOIN gr_dziekan ON studenci.id_grupy=gr_dziekan.id_grupy");
+            while (rs.next()){
+                oblistStudenci.add(new ModelStudenci(rs.getString("id_student"),
+                        rs.getString("specjalnosc.nazwa_specjalnosc"),
+                        rs.getString("tryb_studiow.tryb_studiow"),
+                        rs.getString("kierunek.nazwa_kierunku"),
+                        rs.getString("semestr.numer_sem"),
+                        rs.getString("gr_dziekan.numer_grupy"),
+                        rs.getString("nr_albumu"),
+                        rs.getString("imie_studenta"),
+                        rs.getString("nazwisko_studenta"),
+                        rs.getString("data_urodzenia_student"),
+                        rs.getString("pesel_student"),
+                        rs.getString("stypendium")));
+
+            }
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
    /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
 
         oblist.clear();
@@ -87,6 +120,7 @@ public class TableStudenci {
     public ObservableList<ModelStudenci> getOblist(){
         return oblistStudenci;
     }
+    public void setClearOblist(){oblistStudenci.clear();}
 
 
     public static void infoBox(String infoMessage, String headerText, String title){

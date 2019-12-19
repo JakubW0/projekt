@@ -153,17 +153,58 @@ public class DbController implements Initializable {
     @FXML
             private Button dodaj;
     @FXML
-            private TextField idprzed;
+    private TextField jed;
     @FXML
-            private TextField idTyp;
+    private TextField dwa;
     @FXML
-            private TextField nazwa;
+    private TextField trzy;
     @FXML
-            private TextField eCts;
+    private TextField czt;
     @FXML
-            private TextField godziny;
+    private TextField pie;
     @FXML
-            private CheckBox pokaz;
+    private CheckBox pokaz;
+    @FXML
+    private TextField sze;
+    @FXML
+    private TextField sie;
+    @FXML
+    private TextField osi;
+    @FXML
+    private TextField dzie;
+    @FXML
+    private TextField dzies;
+    @FXML
+    private TextField jede;
+    @FXML
+    private Label jed1;
+    @FXML
+    private Label dwa2;
+    @FXML
+    private Label trzy3;
+    @FXML
+    private Label czt4;
+    @FXML
+    private Label pie5;
+    @FXML
+    private Label sze6;
+    @FXML
+    private Label sie7;
+    @FXML
+    private Label osi8;
+    @FXML
+    private Label dzie9;
+    @FXML
+    private Label dzies10;
+    @FXML
+    private Label jede11;
+    @FXML
+    private Label dwan12;
+    @FXML
+    private Button aktualizuj;
+    @FXML
+    private ComboBox<String> combo;
+
     private String zapytajS,idprzedS,idtypS,nazwaS,ectsS,godzinyS;
 
     TablePrzedmioty tPrzedmioty = new TablePrzedmioty();
@@ -181,7 +222,8 @@ public class DbController implements Initializable {
     TableWydzial tWydzial = new TableWydzial();
 
    /* String[] Tabs = {}*/
-   // ObservableList<ModelPrzedmioty> oblist = FXCollections.observableArrayList();
+    ObservableList<String> oblist = FXCollections.observableArrayList();
+    ListView<ModelPrzedmioty> list = new ListView<ModelPrzedmioty>();
 
 
     public DbController(){}
@@ -274,6 +316,8 @@ public class DbController implements Initializable {
         nazwaWydzialu.setCellValueFactory(new PropertyValueFactory<>("nazwaWydzialu"));
 
 
+        combo.setItems(comboWriter());
+
 
         tableGrupa.setItems(tGrupa.getOblist());
         table.setItems(tPrzedmioty.getOblist());
@@ -288,23 +332,134 @@ public class DbController implements Initializable {
         tableTyp.setItems(tTypy.getOblist());
         tableTytul.setItems(tTytul.getOblist());
         tableWydzial.setItems(tWydzial.getOblist());
+
     }
   @FXML
     private void onDodaj()  {
-
-    tPrzedmioty.setDodaj(idprzed.getText(), idTyp.getText(),nazwa.getText(), eCts.getText(), godziny.getText());
+    tPrzedmioty.setDodaj(tPrzedmioty.getOblist().size()+1, dwa.getText(), trzy.getText(), czt.getText(), pie.getText());
     table.setItems(tPrzedmioty.getOblist());
+      combo.setItems(comboWriter());
+
 
   }
   @FXML
     private void onUsun() {
-        idprzedS = idprzed.getText();
-   tPrzedmioty.setUsun(idprzedS);
-
+   tPrzedmioty.setUsun(combo.getValue());
       table.setItems(tPrzedmioty.getOblist());
+      combo.setItems(comboWriterU());
+    }
+    @FXML
+    private void onCombo(){
+        if(getIndex()==0) {
+            jed.setText(tPrzedmioty.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getTypId());
+            dwa.setText(tPrzedmioty.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getEcts());
+            trzy.setText(tPrzedmioty.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getGodz());
+            czt.setText(tPrzedmioty.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getNazwa());
+        }
+        if(getIndex()==1){
+            dwa.setText(tGrupa.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getNumergrupy());
+        }
+        if(getIndex()==2){
+            jed.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_tytul());
+            dwa.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_katedry());
+            trzy.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getImie_prowadzacy());
+            czt.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getNazwisko_prowadzacy());
+            pie.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getData_urodzenia_prowadzacy());
+            sze.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getPensja());
+            sie.setText(tProwadzacy.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIlosc_dzieci());
+        }
+        if(getIndex()==3){
+            jed.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_specjalnosc());
+            dwa.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_tryb());
+            trzy.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_kierunek());
+            czt.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_semestr());
+            pie.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getId_grupy());
+            sze.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getNr_albumu());
+            sie.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getImie_studenta());
+            osi.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getNazwisko_studenta());
+            dzie.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getData_urodzenia_student());
+            dzies.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getPesel_student());
+            jede.setText(tStudenci.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getStypendium());
+        }
+        if(getIndex()==4){
+            jed.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdPrzedmiot());
+            dwa.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdProwadzacy());
+            trzy.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdSpecjalnosc());
+            czt.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdGrupy());
+            pie.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdSemestr());
+            sze.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdTryb());
+            sie.setText(tPLan.getOblist().get(Integer.parseInt(combo.getValue()) - 1).getIdKierunek());
+        }
+
+    }
+    @FXML
+    private void onAktualizuj(){
+        System.out.println(combo.getValue());
+        tPrzedmioty.setAktualizuj(combo.getValue(), dwa.getText(), trzy.getText(), czt.getText(), pie.getText());
+
+    }
+    @FXML
+    private void onTab(){
+        if(getIndex() == 0){
+           setVisible(true,true,true,true,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,true,true,true,false,false,false,false,false,false);
+        }
+        if(getIndex() == 1 ){
+            setVisible(true,true,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,true,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 2){
+            setVisible(true,true,true,true,true,true,true,false,false,false,false);
+            setVisibleLabel(true,true,true,true,true,true,true,true,false,false,false);
+        }
+        if(getIndex() == 3){
+            setVisible(true,true,true,true,true,true,true,true,true,true,true);
+            setVisibleLabel(true,true,true,true,true,true,true,true,true,true,true);
+
+        }
+        if(getIndex() == 4){
+            setVisible(true,true,true,true,true,true,false,false,false,false,false);
+            setVisibleLabel(true,true,true,true,true,true,true,false,false,false,false);
+
+            combo.setVisible(false);
+        }
+        if(getIndex() == 5 ){
+            setVisible(true,true,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,true,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 6 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);}
+        if(getIndex() == 7 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 8 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 9 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 10 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 11 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+        if(getIndex() == 12 ){
+            setVisible(true,false,false,false,false,false,false,false,false,false,false);
+            setVisibleLabel(true,true,false,false,false,false,false,false,false,false,false);
+        }
+
+
     }
     @FXML
     private void onCheck(){
+
         if(pokaz.isSelected() == true){
              tProwadzacy.setProwadzacyNazwy();
              tPrzedmioty.setPrzedmiotyNazwy();
@@ -347,8 +502,54 @@ public class DbController implements Initializable {
 
     }
 
+    public  ObservableList<String>  comboWriter(){
+        combo.getItems().clear();
+        for(int i =0;i< tPrzedmioty.getOblist().size() ;i++){
+            oblist.add(tPrzedmioty.getOblist().get(i).getId());
+        }
+        return oblist;
+    }
 
-
+  public  ObservableList<String>  comboWriterU(){
+      combo.getItems().clear();
+      tPrzedmioty.setClearOblist();
+      tPrzedmioty.setPrzedmioty();
+      for(int i =0;i< tPrzedmioty.getOblist().size() ;i++){
+          oblist.add(tPrzedmioty.getOblist().get(i).getId());
+      }
+      return oblist;
+  }
+  public Integer getIndex(){
+        return TabsP.getSelectionModel().getSelectedIndex();
+  }
+public void setVisible(Boolean s1,Boolean s2,Boolean s3,Boolean s4,Boolean s5,Boolean s6,Boolean s7,Boolean s8,Boolean s9,Boolean s10,Boolean s11){
+        combo.setVisible(true);
+    jed.setVisible(s1);
+    dwa.setVisible(s2);
+    trzy.setVisible(s3);
+    czt.setVisible(s4);
+    pie.setVisible(s5);
+    sze.setVisible(s6);
+    sie.setVisible(s7);
+    osi.setVisible(s8);
+    dzie.setVisible(s9);
+    dzies.setVisible(s10);
+    jede.setVisible(s11);
+}
+    public void setVisibleLabel(Boolean s1,Boolean s2,Boolean s3,Boolean s4,Boolean s5,Boolean s6,Boolean s7,Boolean s8,Boolean s9,Boolean s10,Boolean s11){
+        jed1.setVisible(s1);
+        dwa2.setVisible(s2);
+        trzy3.setVisible(s3);
+        czt4.setVisible(s4);
+        pie5.setVisible(s5);
+        sze6.setVisible(s6);
+        sie7.setVisible(s7);
+        osi8.setVisible(s8);
+        dzie9.setVisible(s9);
+        dzies10.setVisible(s10);
+        jede11.setVisible(s11);
+        dwan12.setVisible(s11);
+    }
 
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

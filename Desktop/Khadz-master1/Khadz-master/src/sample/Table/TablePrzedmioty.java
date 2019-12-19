@@ -58,12 +58,12 @@ public class TablePrzedmioty {
 
         }
 
-        public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+        public void setDodaj( int idprzed, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
 
             oblist.clear();
             try {
                 Connection conn = ConnectTable.connectdb();
-                conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
+                conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzed+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
                 ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
                 while (rs.next()){
                     oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
@@ -81,10 +81,34 @@ public class TablePrzedmioty {
             }
 
         }
+    public void setAktualizuj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+
+        oblist.clear();
+        try {
+            Connection conn = ConnectTable.connectdb();
+            conn.createStatement().executeUpdate("UPDATE `przedmioty` SET `id_typ_zajec`='"+idtypS+"',`nazwa_przedmiotu`= '"+nazwaS+"',`ects`='"+ectsS+"',`godziny`='"+godzinyS+"' WHERE `Id_przedmiot`='"+idprzedS+"'");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            while (rs.next()){
+                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
+                        rs.getString("id_typ_zajec"),
+                        rs.getString("nazwa_przedmiotu"),
+                        rs.getString("ects"),
+                        rs.getString("godziny")));
+
+            }
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            infoBox("zle wypelniona baza danych",null, "Błąd");
+        }
+
+    }
 
         public void setUsun(String idprzedS){
             try {
                 Connection conn = ConnectTable.connectdb();
+                System.out.println(idprzedS);
                 conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
                 ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
                 while (rs.next()){
@@ -104,7 +128,10 @@ public class TablePrzedmioty {
         }
      public ObservableList<ModelPrzedmioty> getOblist(){
         return  oblist;
-     }
+    }
+  /*  public ObservableList<ModelPrzedmioty> getOblistID(){
+        return oblist.get(1);
+    }*/
     public void setClearOblist(){
         oblist.clear();
     }

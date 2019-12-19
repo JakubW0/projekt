@@ -9,7 +9,7 @@ public class ConnectTable {
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/projekt","root","");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/projekt3","root","");
             System.out.println("git");
             return conn;
         }

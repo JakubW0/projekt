@@ -9,8 +9,7 @@ public class ConnectionUtil {
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/swingapp","root","");
-            System.out.println("git");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/uzytkownicy","root","");
             return conn;
         }
         catch(Exception e)

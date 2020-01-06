@@ -4,8 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import sample.ConnectTable;
-import sample.Modele.ModelProwadzacy;
 import sample.Modele.ModelPlan;
+import sample.Modele.ModelPrzedmioty;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -84,6 +84,32 @@ public class TablePlan {
         try {
             Connection conn = ConnectTable.connectdb();
             conn.createStatement().executeUpdate("INSERT INTO `plan` (`Id_plan`, `Id_przedmiot`, `id_prowadzacy`, `id_specjalnosc`, `id_grupy`, `id_semestr`, `id_tryb`, `id_kierunek`) VALUES ('"+idprzedS+"', '"+przedmiot+"', '"+prowa+"', '"+sepc+"','"+grupa+"','"+semestr+"','"+tryb+"','"+kierunek+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `plan` ORDER BY `plan`.`id_plan` ASC");
+            while (rs.next()){
+                oblistPlan.add(new ModelPlan( rs.getString("Id_plan"),
+                        rs.getString("Id_przedmiot"),
+                        rs.getString("id_prowadzacy"),
+                        rs.getString("id_specjalnosc"),
+                        rs.getString("id_grupy"),
+                        rs.getString("id_semestr"),
+                        rs.getString("id_tryb"),
+                        rs.getString("id_kierunek")));
+
+            }
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setAktualizuj( String idprzedS, String przedmiot, String prowa, String sepc, String grupa , String semestr, String tryb, String kierunek  ){
+
+        oblistPlan.clear();
+        try {
+            Connection conn = ConnectTable.connectdb();
+            conn.createStatement().executeUpdate("UPDATE `plan` SET  `Id_przedmiot` = '"+przedmiot+"', `id_prowadzacy` = '"+prowa+"', `id_specjalnosc` = '"+sepc+"' , `id_grupy` = '"+grupa+"', `id_semestr` = '"+semestr+"', `id_tryb` = '"+tryb+"', `id_kierunek` = '"+kierunek+"' WHERE `Id_plan`='"+idprzedS+"'");
             ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `plan` ORDER BY `plan`.`id_plan` ASC");
             while (rs.next()){
                 oblistPlan.add(new ModelPlan( rs.getString("Id_plan"),

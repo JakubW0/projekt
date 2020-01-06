@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import sample.ConnectTable;
-import sample.Modele.ModelSpecjalnosci;
 import sample.Modele.ModelTryb;
 
 import java.sql.Connection;

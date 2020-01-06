@@ -1,8 +1,6 @@
 package sample;
 
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -12,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+
 import javafx.scene.control.TextField;
 
 public class Logowanie implements Initializable {
@@ -25,19 +23,20 @@ public class Logowanie implements Initializable {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-    public Logowanie (){ connection = ConnectionUtil.connectdb();
+    private String typKonta ;
+    public Logowanie (){
 
     }
 
     public void setHaslo(TextField haslo) {
         this.haslo = haslo;
-        System.out.println(haslo.getText());
     }
 
     public void setLogin(TextField login) {
         this.login = login;
-        System.out.println("teraz login: "+login.getText());
-
+    }
+    public String getType(){
+        return typKonta;
     }
 
     public boolean loginAction(){
@@ -45,21 +44,21 @@ public class Logowanie implements Initializable {
         String hasloL = haslo.getText().toString();
 
 
-        String sql = "SELECT * FROM employee WHERE email = ? and password = ?";
-
         try{
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, loginL);
-            preparedStatement.setString(2, hasloL);
-            resultSet = preparedStatement.executeQuery();
+            connection = ConnectionUtil.connectdb();
+            resultSet = connection.createStatement().executeQuery("SELECT * FROM `uzytkownik` WHERE login = '"+loginL+"' AND haslo = '"+hasloL+"' ");
             if(!resultSet.next()){
-                infoBox("Please enter correct Email and Password", null, "Failed");
+                infoBox("Proszę podać poprawny login i hasło", null, "Błąd");
+                login.clear();
+                haslo.clear();
                 return false;
-            }else{
-                infoBox("Login Successfull",null,"Success" );
-              return true;
-
             }
+            else{
+                typKonta=resultSet.getString("typ");
+                infoBox("Logowanie pomyślne!",null,"Sukces" );
+                return true;
+                }
+
         }
         catch(Exception e){
             e.printStackTrace();

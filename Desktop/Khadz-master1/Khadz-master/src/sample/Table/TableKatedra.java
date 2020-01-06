@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import sample.ConnectTable;
 import sample.Modele.ModelKatedra;
-import sample.Modele.ModelPlan;
-import sample.Modele.ModelProwadzacy;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

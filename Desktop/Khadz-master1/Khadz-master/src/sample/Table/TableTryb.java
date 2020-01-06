@@ -32,26 +32,23 @@ public class TableTryb {
 
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String idtypS){
 
-        oblist.clear();
+        oblistTryb.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `tryb_studiow` (`id_tryb`, `tryb_studiow`) VALUES ('"+idprzedS+"','"+idtypS+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `tryb_studiow`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistTryb.add(new ModelTryb(rs.getString("id_tryb"),
+                        rs.getString("tryb_studiow")));
+
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
@@ -59,26 +56,25 @@ public class TableTryb {
     public void setUsun(String idprzedS){
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("DELETE FROM `tryb_studiow` WHERE `tryb_studiow`.`id_tryb` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `tryb_studiow`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistTryb.add(new ModelTryb(rs.getString("id_tryb"),
+                        rs.getString("tryb_studiow")));
+
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }}
 
     public ObservableList<ModelTryb> getOblist(){
         return oblistTryb;
     }
+
+    public void setClearOblist(){oblistTryb.clear();}
 
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

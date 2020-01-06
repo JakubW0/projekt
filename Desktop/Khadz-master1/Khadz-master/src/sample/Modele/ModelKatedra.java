@@ -10,6 +10,9 @@ public class ModelKatedra {
         this.idWydzial = idWydzial;
         this.nazwaKatedry = nazwaKatedry;
     }
+    public ModelKatedra(String nazwaKatedry){
+        this.nazwaKatedry = nazwaKatedry;
+    }
 
 
     public String getIdKatedry() {

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class TableProwadzacy {
 
     ObservableList<ModelProwadzacy> oblistProwadzacy = FXCollections.observableArrayList();
+    ObservableList<ModelProwadzacy> oblistNazwy = FXCollections.observableArrayList();
     public TableProwadzacy(){}
     public void setProwadzacy() {
         try {
@@ -60,26 +61,27 @@ public class TableProwadzacy {
             }
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String idTytul, String idKatedry, String imie ,String nazwisko, String data, String pensja, String dzieci){
 
-        oblist.clear();
+        oblistProwadzacy.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
-            while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
-
+            conn.createStatement().executeUpdate("INSERT INTO `prowadzacy` (`id_prowadzacy`, `id_tytul`, `id_katedry`, `imie_prowadzacy`, `nazwisko_prowadzacy`, `data_urodzenia_prowadzacy`, `pensja`, `ilosc_dzieci` ) VALUES ('"+idprzedS+"','"+idTytul+"', '"+idKatedry+"','"+imie+"','"+nazwisko+"','"+data+"','"+pensja+"','"+dzieci+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `prowadzacy`");
+            while (rs.next()) {
+                oblistProwadzacy.add(new ModelProwadzacy(rs.getString("id_prowadzacy"),
+                        rs.getString("id_tytul"),
+                        rs.getString("id_katedry"),
+                        rs.getString("imie_prowadzacy"),
+                        rs.getString("nazwisko_prowadzacy"),
+                        rs.getString("data_urodzenia_prowadzacy"),
+                        rs.getString("pensja"),
+                        rs.getString("ilosc_dzieci")
+                ));
             }
             conn.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
@@ -87,22 +89,57 @@ public class TableProwadzacy {
     public void setUsun(String idprzedS){
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
-            while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+            conn.createStatement().executeUpdate("DELETE FROM `prowadzacy` WHERE `przedmioty`.`id_prowadzacy` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `prowadzacy`");
+            while (rs.next()) {
+                oblistProwadzacy.add(new ModelProwadzacy(rs.getString("id_prowadzacy"),
+                        rs.getString("id_tytul"),
+                        rs.getString("id_katedry"),
+                        rs.getString("imie_prowadzacy"),
+                        rs.getString("nazwisko_prowadzacy"),
+                        rs.getString("data_urodzenia_prowadzacy"),
+                        rs.getString("pensja"),
+                        rs.getString("ilosc_dzieci")
+                ));
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        }
+
+
+    public void querka(String id) {
+        oblistProwadzacy.clear();
+        try {
+            Connection conn = ConnectTable.connectdb();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT prowadzacy.id_prowadzacy, tytul_naukowy.nazwa_tytulu,katedra.nazwa_katedry,prowadzacy.imie_prowadzacy,prowadzacy.nazwisko_prowadzacy,prowadzacy.data_urodzenia_prowadzacy, prowadzacy.pensja,prowadzacy.ilosc_dzieci \n" +
+                    "FROM prowadzacy \n" +
+                    "INNER JOIN tytul_naukowy\n" +
+                    "ON prowadzacy.Id_tytul=tytul_naukowy.Id_tytul\n" +
+                    "INNER JOIN katedra \n" +
+                    "ON prowadzacy.id_katedry=katedra.id_katedry\n"+
+                    "WHERE katedra.nazwa_katedry = '"+id+"'"
+            );
+            while (rs.next()) {
+                oblistProwadzacy.add(new ModelProwadzacy(rs.getString("prowadzacy.id_prowadzacy"),
+                        rs.getString("tytul_naukowy.nazwa_tytulu"),
+                        rs.getString("katedra.nazwa_katedry"),
+                        rs.getString("prowadzacy.imie_prowadzacy"),
+                        rs.getString("prowadzacy.nazwisko_prowadzacy"),
+                        rs.getString("prowadzacy.data_urodzenia_prowadzacy"),
+                        rs.getString("prowadzacy.pensja"),
+                        rs.getString("prowadzacy.ilosc_dzieci")
+
+                ));
 
             }
             conn.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }
+    }
+
 
     public ObservableList<ModelProwadzacy> getOblist(){
         return oblistProwadzacy;

@@ -50,49 +50,45 @@ public class TableKierunek {
 
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String idtypS, String nazwaS){
 
-        oblist.clear();
+        oblistKierunek.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `kierunek` (`id_kierunek`, `id_wydzial`, `nazwa_kierunku`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `kierunek`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistKierunek.add(new ModelKierunek(rs.getString("id_kierunek"),
+                        rs.getString("id_wydzial"),
+                        rs.getString("nazwa_kierunku")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
 
     public void setUsun(String idprzedS){
+        oblistKierunek.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("DELETE FROM `kierunek` WHERE `kierunek`.`id_kierunek` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `kierunek`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistKierunek.add(new ModelKierunek(rs.getString("id_kierunek"),
+                        rs.getString("id_wydzial"),
+                        rs.getString("nazwa_kierunku")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }
+    }
 
     public ObservableList<ModelKierunek> getOblist(){
         return oblistKierunek;

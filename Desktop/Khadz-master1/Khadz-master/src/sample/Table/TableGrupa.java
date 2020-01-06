@@ -32,19 +32,16 @@ public class TableGrupa {
         }
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS,String nazwaS ){
 
-        oblist.clear();
+        oblistGrupa.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `gr_dziekan` (`id_grupy`, `numer_grupy`) VALUES ('"+idprzedS+"', '"+nazwaS+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `gr_dziekan`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistGrupa.add(new ModelGrupa(rs.getString("id_grupy"),
+                        rs.getString("numer_grupy")));
 
             }
             conn.close();
@@ -57,27 +54,29 @@ public class TableGrupa {
     }
 
     public void setUsun(String idprzedS){
+        oblistGrupa.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("DELETE FROM `gr_dziekan` WHERE `gr_dziekan`.`id_grupy` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `gr_dziekan`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistGrupa.add(new ModelGrupa(rs.getString("id_grupy"),
+                        rs.getString("numer_grupy")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+            infoBox("zle wypelniona baza danych",null, "Błąd");
+        }
+    }
 
     public ObservableList<ModelGrupa> getOblist(){
         return  oblistGrupa;
+    }
+    public void setClearOblist(){
+        oblistGrupa.clear();
     }
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

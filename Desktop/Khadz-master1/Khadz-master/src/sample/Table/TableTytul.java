@@ -29,26 +29,23 @@ public class TableTytul {
             e.printStackTrace();
         }
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String idtypS){
 
-        oblist.clear();
+        oblistTytul.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `tytul_naukowy` (`id_tytul`, `nazwa_tytulu`) VALUES ('"+idprzedS+"','"+idtypS+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `tytul_naukowy`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistTytul.add(new ModelTytul(rs.getString("id_tytul"),
+                        rs.getString("nazwa_tytulu")));
+
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
@@ -56,26 +53,24 @@ public class TableTytul {
     public void setUsun(String idprzedS){
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("DELETE FROM `tytul_naukowy` WHERE `tytul_naukowy`.`id_tytul` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `tytul_naukowy`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistTytul.add(new ModelTytul(rs.getString("id_tytul"),
+                        rs.getString("nazwa_tytulu")));
+
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }}
 
     public ObservableList<ModelTytul> getOblist(){
         return oblistTytul;
     }
+    public void setClearOblist(){oblistTytul.clear();}
 
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

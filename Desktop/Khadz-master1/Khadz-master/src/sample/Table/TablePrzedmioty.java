@@ -81,7 +81,7 @@ public class TablePrzedmioty {
             }
 
         }
-    public void setAktualizuj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setAktualizuj( String idprzedS, String idtypS, String nazwaS, String godzinyS  ,String ectsS){
 
         oblist.clear();
         try {
@@ -123,7 +123,7 @@ public class TablePrzedmioty {
             }
             catch (SQLException e) {
                 e.printStackTrace();
-                infoBox("Błąd",null, "zle wypelniona baza danych");
+                infoBox("Id tego przedmiotu jest używane w innej tabeli, usuń w niej rekord by usunąć ten przedmiot ",null, "Błąd");
             }
         }
      public ObservableList<ModelPrzedmioty> getOblist(){

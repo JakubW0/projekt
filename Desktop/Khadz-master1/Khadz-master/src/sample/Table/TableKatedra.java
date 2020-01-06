@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import sample.ConnectTable;
 import sample.Modele.ModelKatedra;
 import sample.Modele.ModelPlan;
+import sample.Modele.ModelProwadzacy;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public class TableKatedra {
     public TableKatedra() {
     }
     ObservableList<ModelKatedra> oblistKatedra = FXCollections.observableArrayList();
+    ObservableList<ModelKatedra> oblistNazwa = FXCollections.observableArrayList();
     public void setKatedra(){
         try {
             Connection conn = ConnectTable.connectdb();
@@ -52,26 +54,23 @@ public class TableKatedra {
 
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String idtypS, String nazwaS ){
 
-        oblist.clear();
+        oblistKatedra.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `katedra` (`id_katedry`, `id_wydzial`, `nazwa_katedry` ) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `katedra`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistKatedra.add(new ModelKatedra(rs.getString("id_katedry"),
+                        rs.getString("id_wydzial"),
+                        rs.getString("nazwa_katedry")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
@@ -79,29 +78,31 @@ public class TableKatedra {
     public void setUsun(String idprzedS){
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("DELETE FROM `katedra` WHERE `katedra`.`id_katedry` = "+idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `katedra`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistKatedra.add(new ModelKatedra(rs.getString("id_katedry"),
+                        rs.getString("id_wydzial"),
+                        rs.getString("nazwa_katedry")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }}
 
     public ObservableList<ModelKatedra> getOblist(){
+
         return oblistKatedra;
+    }
+    public void setClearOblist(){
+        oblistKatedra.clear();
     }
     public void setOblistClear(){
         oblistKatedra.clear();
     }
+
     public static void infoBox(String infoMessage, String headerText, String title){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setContentText(infoMessage);

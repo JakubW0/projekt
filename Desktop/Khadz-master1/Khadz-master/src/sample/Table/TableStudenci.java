@@ -73,49 +73,88 @@ public class TableStudenci {
         }
 
     }
-   /* public void setDodaj( String idprzedS, String idtypS, String nazwaS, String ectsS ,String godzinyS ){
+    public void setDodaj( int idprzedS, String spec,String tryb, String kierunek, String semestr ,String grupa, String album, String imie, String nazwisko ,String data, String pesel, String stypendium ){
 
-        oblist.clear();
+        oblistStudenci.clear();
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("INSERT INTO `przedmioty` (`Id_przedmiot`, `id_typ_zajec`, `nazwa_przedmiotu`, `ects`, `godziny`) VALUES ('"+idprzedS+"','"+idtypS+"', '"+nazwaS+"','"+ectsS+"','"+godzinyS+"')");
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
+            conn.createStatement().executeUpdate("INSERT INTO `studenci` (`Id_student`, `id_specjalnosc`,`id_tryb`, `id_kierunek`, `id_semestr`, `id_grupy`, `nr_albumu`, `imie_studenta`, `nazwisko_studenta`, `data_urodzenia_student`, `pesel_student`, `stypendium`) VALUES ('"+idprzedS+"','"+spec+"','"+tryb+"', '"+kierunek+"','"+semestr+"','"+grupa+"','"+album+"', '"+imie+"','"+nazwisko+"','"+data+"','"+pesel+"','"+stypendium+"')");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `studenci`");
             while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+                oblistStudenci.add(new ModelStudenci(rs.getString("id_student"),
+                        rs.getString("id_specjalnosc"),
+                        rs.getString("id_tryb"),
+                        rs.getString("id_kierunek"),
+                        rs.getString("id_semestr"),
+                        rs.getString("id_grupy"),
+                        rs.getString("nr_albumu"),
+                        rs.getString("imie_studenta"),
+                        rs.getString("nazwisko_studenta"),
+                        rs.getString("data_urodzenia_student"),
+                        rs.getString("pesel_student"),
+                        rs.getString("stypendium")));
 
             }
             conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            infoBox("zle wypelniona baza danych",null, "Błąd");
         }
 
     }
 
-    public void setUsun(String idprzedS){
+    public void setUsun(String idprzedS) {
         try {
             Connection conn = ConnectTable.connectdb();
-            conn.createStatement().executeUpdate("DELETE FROM `przedmioty` WHERE `przedmioty`.`Id_przedmiot` = "+idprzedS);
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `przedmioty`");
-            while (rs.next()){
-                oblist.add(new ModelPrzedmioty(rs.getString("Id_przedmiot"),
-                        rs.getString("id_typ_zajec"),
-                        rs.getString("nazwa_przedmiotu"),
-                        rs.getString("ects"),
-                        rs.getString("godziny")));
+            conn.createStatement().executeUpdate("DELETE FROM `studenci` WHERE `studenci`.`Id_student` = " + idprzedS);
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM `studenci`");
+            while (rs.next()) {
+                oblistStudenci.add(new ModelStudenci(rs.getString("id_student"),
+                        rs.getString("id_specjalnosc"),
+                        rs.getString("id_tryb"),
+                        rs.getString("id_kierunek"),
+                        rs.getString("id_semestr"),
+                        rs.getString("id_grupy"),
+                        rs.getString("nr_albumu"),
+                        rs.getString("imie_studenta"),
+                        rs.getString("nazwisko_studenta"),
+                        rs.getString("data_urodzenia_student"),
+                        rs.getString("pesel_student"),
+                        rs.getString("stypendium")));
 
             }
             conn.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            infoBox("Błąd",null, "zle wypelniona baza danych");
-        }}*/
+        }
+    }
+
+    public void querka(String kierunek, String grupa) {
+        oblistStudenci.clear();
+        try {
+            Connection conn = ConnectTable.connectdb();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * \n" +
+                    "FROM `studenci` WHERE studenci.id_kierunek = " + kierunek + " AND studenci.id_grupy = " + grupa + "");
+            while (rs.next()) {
+                oblistStudenci.add(new ModelStudenci(rs.getString("id_student"),
+                        rs.getString("id_specjalnosc"),
+                        rs.getString("id_tryb"),
+                        rs.getString("id_kierunek"),
+                        rs.getString("id_semestr"),
+                        rs.getString("id_grupy"),
+                        rs.getString("nr_albumu"),
+                        rs.getString("imie_studenta"),
+                        rs.getString("nazwisko_studenta"),
+                        rs.getString("data_urodzenia_student"),
+                        rs.getString("pesel_student"),
+                        rs.getString("stypendium")));
+
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ObservableList<ModelStudenci> getOblist(){
         return oblistStudenci;

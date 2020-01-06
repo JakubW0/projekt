@@ -12,8 +12,11 @@ public class ModelPlan {
     String idSemestr;
     String idTryb;
     String idKierunek;
+    String idPlan;
 
-    public ModelPlan(String idPrzedmiot, String tytul, String idProwadzacy, String nazwisko, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
+
+    public ModelPlan(String idPlan,String idPrzedmiot, String tytul, String idProwadzacy, String nazwisko, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
+        this.idPlan = idPlan;
         this.idPrzedmiot = idPrzedmiot;
         this.tytul = tytul;
         this.idProwadzacy = idProwadzacy;
@@ -25,7 +28,8 @@ public class ModelPlan {
         this.idKierunek = idKierunek;
     }
 
-    public ModelPlan(String idPrzedmiot, String idProwadzacy, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
+    public ModelPlan(String idPlan,String idPrzedmiot, String idProwadzacy, String idSpecjalnosc, String idGrupy, String idSemestr, String idTryb, String idKierunek) {
+        this.idPlan = idPlan;
         this.idPrzedmiot = idPrzedmiot;
         this.idProwadzacy = idProwadzacy;
         this.idSpecjalnosc = idSpecjalnosc;
@@ -33,6 +37,13 @@ public class ModelPlan {
         this.idSemestr = idSemestr;
         this.idTryb = idTryb;
         this.idKierunek = idKierunek;
+    }
+    public String getIdPlan() {
+        return idPlan;
+    }
+
+    public void setIdPlan(String idPlan) {
+        this.idPlan = idPlan;
     }
 
     public String getTytul() {
